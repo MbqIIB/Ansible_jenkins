@@ -1,0 +1,51 @@
+- name: install the epel relase latest for centos7
+  yum: 
+   name: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm 
+   state: present
+
+- name: install open jdk 8 using yum
+  yum:
+    name: java-1.8.0-openjdk.x86_64
+    state: latest
+
+- name: Setting Export JAVA_HOEM AND JRE_HOME
+  shell: cp /etc/profile /etc/profile_backup
+- name: Export JAVA_HOME
+  shell: export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk | sudo tee -a /etc/profile
+- name: EXPORT JRE_HOME
+  shell: export JRE_HOME=/usr/lib/jvm/jre | sudo tee -a /etc/profile
+
+- name: sorce /etc/profile
+  shell: source /etc/profile
+
+- name: install wget
+  yum:
+    name: wget
+    state: latest
+- name: install git
+  yum:
+    name: git
+    state: latest
+
+- name: installing jenkins process is going
+  shell: wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+
+- name: jenkins repo import
+  rpm_key:
+    state: present
+    key: http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
+
+- name: installing jenking using yum
+  yum:
+    name: jenkins
+    state: latest
+  notify:
+        - start jenkins
+  notify:
+       - enable jenkins
+
+- name: firewall port
+  firewalld:
+    port: 8080/tcp
+    permanent: true
+    state: enabled

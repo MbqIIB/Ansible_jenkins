@@ -1,3 +1,4 @@
+
 Ansible is an IT automation tool. It can configure systems, deploy software, and orchestrate more advanced IT tasks such as continuous deployments or zero downtime rolling updates.
 First you need to install ansible on centos. 
 Steps for Redhat Family: 
@@ -17,6 +18,7 @@ Steps for debain Family:
 Steps to run this code:
 git clone https://github.com/pavantech/Ansible_jenkins.git
 cd Ansible_jenkins
+cd jenkins/centos7/ 
 vi hosts
 [jenkins] 
 xx.xx.xx ansible_ssh_user=username ansible_ssh_pass=password 

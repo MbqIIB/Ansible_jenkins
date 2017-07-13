@@ -40,8 +40,7 @@
     name: jenkins
     state: latest
   notify:
-        - start jenkins
-  notify:
+       - start jenkins
        - enable jenkins
 
 - name: firewall port

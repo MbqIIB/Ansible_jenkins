@@ -1,6 +1,6 @@
-- name: install the epel relase latest for centos7
+  name: install the epel relase latest for centos7
   yum: 
-   name: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm 
+   name: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-10.noarch.rpm 
    state: present
 
 - name: install open jdk 8 using yum

@@ -1,0 +1,66 @@
+---
+- name: install the epel relase latest for centos7
+  yum: 
+   name: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-10.noarch.rpm 
+   state: latest
+  ignore_errors: true
+
+- name: Download JDK rpm file
+  shell:  wget --no-cookies --no-check-certificate --header "Cookie:oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm"
+  become: yes
+
+
+- name: install jdk
+  yum:
+     name: jdk-8u131-linux-x64.rpm
+     state: latest
+  ignore_errors: true
+  become: yes
+
+- name: Setting Export JAVA_HOEM AND JRE_HOME
+  shell: cp /etc/profile /etc/profile_backup
+- name: Export JAVA_HOME
+  shell: export JAVA_HOME=/usr/java/jdk1.8.0_131/bin | sudo tee -a /etc/profile
+- name: EXPORT JRE_HOME
+  shell: export JRE_HOME=/usr/java/jdk1.8.0_131/jre | sudo tee -a /etc/profile
+
+- name: sorce /etc/profile
+  shell: source /etc/profile
+
+- name: install wget
+  yum:
+    name: wget
+    state: latest
+- name: install git
+  yum:
+    name: git
+    state: latest
+
+- name: installing jenkins process is going
+  shell: wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+
+- name: jenkins repo import
+  rpm_key:
+    state: present
+    key: http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
+
+- name: installing jenking using yum
+  yum:
+    name: jenkins
+    state: latest
+
+- name: start jenkins
+  shell: service jenkins start
+
+- name: delete rpm file
+  shell: rm -rf jdk-8u131-linux-x64.rpm
+
+- name: delete rpm file
+  shell: rm -rf epel-release-7-10.noarch.rpm
+
+- name: checking started jenkins
+  shell: service jenkins status
+  register: message
+
+- debug:
+      var: message

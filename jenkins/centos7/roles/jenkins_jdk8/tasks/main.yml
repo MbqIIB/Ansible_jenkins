@@ -3,10 +3,12 @@
   yum: 
    name: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-10.noarch.rpm 
    state: latest
+  ignore_errors: true
 
 - name: Download JDK rpm file
   shell:  wget --no-cookies --no-check-certificate --header "Cookie:oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm"
   become: yes
+
 
 - name: install jdk
   yum:
@@ -49,4 +51,6 @@
   notify:
        - start jenkins
        - enable jenkins
+- name: delete rpm file
+  shell: rm -rf jdk-8u131-linux-x64.rpm
 

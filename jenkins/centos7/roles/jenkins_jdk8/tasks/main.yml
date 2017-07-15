@@ -1,19 +1,26 @@
-  name: install the epel relase latest for centos7
+---
+- name: install the epel relase latest for centos7
   yum: 
    name: http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-10.noarch.rpm 
-   state: present
+   state: latest
 
-- name: install open jdk 8 using yum
+- name: Download JDK rpm file
+  shell:  wget --no-cookies --no-check-certificate --header "Cookie:oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm"
+  become: yes
+
+- name: install jdk
   yum:
-    name: java-1.8.0-openjdk.x86_64
-    state: latest
+     name: jdk-8u131-linux-x64.rpm
+     state: latest
+  ignore_errors: true
+  become: yes
 
 - name: Setting Export JAVA_HOEM AND JRE_HOME
   shell: cp /etc/profile /etc/profile_backup
 - name: Export JAVA_HOME
-  shell: export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk | sudo tee -a /etc/profile
+  shell: export JAVA_HOME=/usr/java/jdk1.8.0_131/bin | sudo tee -a /etc/profile
 - name: EXPORT JRE_HOME
-  shell: export JRE_HOME=/usr/lib/jvm/jre | sudo tee -a /etc/profile
+  shell: export JRE_HOME=/usr/java/jdk1.8.0_131/jre | sudo tee -a /etc/profile
 
 - name: sorce /etc/profile
   shell: source /etc/profile
@@ -43,8 +50,3 @@
        - start jenkins
        - enable jenkins
 
-- name: firewall port
-  firewalld:
-    port: 8080/tcp
-    permanent: true
-    state: enabled

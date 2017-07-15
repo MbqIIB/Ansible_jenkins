@@ -52,9 +52,6 @@
 - name: start jenkins
   shell: service jenkins start
 
-- name: enable jenkins
-  shell: service jenkins enable
-
 - name: delete rpm file
   shell: rm -rf jdk-8u131-linux-x64.rpm
 
@@ -67,7 +64,3 @@
 
 - debug:
       var: message
-
-
-
-

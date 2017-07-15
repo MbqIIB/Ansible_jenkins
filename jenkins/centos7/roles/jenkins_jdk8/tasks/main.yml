@@ -51,6 +51,20 @@
   notify:
        - start jenkins
        - enable jenkins
+
 - name: delete rpm file
   shell: rm -rf jdk-8u131-linux-x64.rpm
+
+- name: delete rpm file
+  shell: rm -rf epel-release-7-10.noarch.rpm
+
+- name: checking started jenkins
+  shell: service jenkins status
+  register: message
+
+- debug:
+      var: message
+
+
+
 
